@@ -13,7 +13,7 @@ namespace Assets.Scripts
     public class NetworkClient : MonoBehaviour, INetEventListener
     {
 
-        private NetManager _client;
+        private NetManager _netManager;
         private NetPeer _server;
         private NetDataWriter _writer;
         private PacketRegistry _packetRegistry;
@@ -55,9 +55,9 @@ namespace Assets.Scripts
             _packetRegistry = new PacketRegistry();
             _handlerRegistry = new HandlerRegistry();
             _writer = new NetDataWriter();
-            _client = new NetManager(this);
-            _client.DisconnectTimeout = 100000; // TODO: use config for this. Default is 5000
-            _client.Start();
+            _netManager = new NetManager(this);
+            _netManager.DisconnectTimeout = 100000; // TODO: use config for this. Default is 5000
+            _netManager.Start();
             //_client.Connect("localhost", 9050, "");
         }
 
@@ -72,12 +72,12 @@ namespace Assets.Scripts
 
         public void Connect()
         {
-            _client.Connect("localhost", 9050, "");
+            _netManager.Connect("localhost", 9050, "");
         }
 
         private void Update()
         {
-            _client.PollEvents();
+            _netManager.PollEvents();
         }
 
         #region Interface methods
