@@ -1,14 +1,14 @@
-﻿using Assets.Scripts.PacketHandlers;
-using Assets.Scripts.Packets;
-using Assets.Scripts.Registries;
-using LiteNetLib;
+﻿using LiteNetLib;
 using LiteNetLib.Utils;
+using NetworkShared;
+using NetworkShared.Registries;
+using NetworkShared.Shared;
 using System;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace TTT
 {
     public class NetworkClient : MonoBehaviour, INetEventListener
     {
@@ -34,13 +34,14 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            if (_instance != null)
+            if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
             }
             else
             {
                 _instance = this;
+                DontDestroyOnLoad(gameObject);
             }
         }
         #endregion
@@ -56,9 +57,11 @@ namespace Assets.Scripts
             _handlerRegistry = new HandlerRegistry();
             _writer = new NetDataWriter();
             _netManager = new NetManager(this);
-            _netManager.DisconnectTimeout = 100000; // TODO: use config for this. Default is 5000
+            _netManager.SimulateLatency = true;
+            //_netManager.SimulationMinLatency = 200;
+            //_netManager.SimulationMaxLatency = 500;
+            _netManager.DisconnectTimeout = 100000; // Default is 5000
             _netManager.Start();
-            //_client.Connect("localhost", 9050, "");
         }
 
         public void SendServer<T>(T packet, DeliveryMethod deliveryMethod = DeliveryMethod.ReliableOrdered) where T : INetSerializable
@@ -78,6 +81,19 @@ namespace Assets.Scripts
         private void Update()
         {
             _netManager.PollEvents();
+        }
+
+        private void OnDestroy()
+        {
+            if (_server != null)
+            {
+                _netManager.Stop();
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            _netManager.DisconnectAll();
         }
 
         #region Interface methods

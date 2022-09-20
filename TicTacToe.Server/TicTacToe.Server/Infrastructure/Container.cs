@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetworkShared.Registries;
+using System;
+using TicTacToe.Server.Data;
 using TicTacToe.Server.Extensions;
 using TicTacToe.Server.Game;
-using TicTacToe.Server.Registries;
+using TicTacToe.Server.Matchmaking;
 
 namespace TicTacToe.Server.Infrastructure
 {
@@ -23,7 +26,10 @@ namespace TicTacToe.Server.Infrastructure
             services.AddSingleton<NetworkServer>();
             services.AddSingleton<PacketRegistry>();
             services.AddSingleton<HandlerRegistry>();
-            services.AddSingleton<GameManager>();
+            services.AddSingleton<UsersManager>();
+            services.AddSingleton<GamesManager>();
+            services.AddSingleton<Matchmaker>();
+            services.AddSingleton<IRepository<User>, InMemoryUserRepository>(); // This should be AddScoped with using real database.
             services.AddPacketHandlers();
         }
     }

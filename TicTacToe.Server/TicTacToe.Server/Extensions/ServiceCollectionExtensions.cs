@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NetworkShared;
+using NetworkShared.Attributes;
+using System;
+using System.Linq;
 using System.Reflection;
-using TicTacToe.Server.Attributes;
-using TicTacToe.Server.Shared;
 
 namespace TicTacToe.Server.Extensions
 {

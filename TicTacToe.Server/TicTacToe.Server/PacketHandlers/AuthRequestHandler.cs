@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using TicTacToe.Server.Attributes;
+using NetworkShared;
+using NetworkShared.Attributes;
+using NetworkShared.Packets.ClientServer;
+using NetworkShared.Packets.ServerClient;
+using NetworkShared.Shared;
+using System;
+using System.Threading;
 using TicTacToe.Server.Game;
-using TicTacToe.Server.Packets.ClientServer;
-using TicTacToe.Server.Packets.ServerClient;
-using TicTacToe.Server.Shared;
 
 namespace TicTacToe.Server.PacketHandlers
 {
@@ -11,12 +14,12 @@ namespace TicTacToe.Server.PacketHandlers
     public class AuthRequestHandler : IPacketHandler
     {
         private readonly ILogger<AuthRequestHandler> _logger;
-        private readonly GameManager _gameManager;
+        private readonly UsersManager _gameManager;
         private readonly NetworkServer _server;
 
         public AuthRequestHandler(
             ILogger<AuthRequestHandler> logger,
-            GameManager gameManager,
+            UsersManager gameManager,
             NetworkServer server)
         {
             _logger = logger;
@@ -30,9 +33,22 @@ namespace TicTacToe.Server.PacketHandlers
 
             _logger.LogInformation($"Received login request for user: {msg.Username} with pass: {msg.Password}");
 
-            _gameManager.RegisterPlayer(connectionId, msg.Username, msg.Password);
+            var loginSuccess = _gameManager.LoginOrRegister(connectionId, msg.Username, msg.Password);
 
-            var rmsg = new Net_OnAuthRequest();
+            INetPacket rmsg;
+
+            // Additional fake slow.
+            //Thread.Sleep(TimeSpan.FromMilliseconds(500));
+
+            if (loginSuccess)
+            {
+                rmsg = new Net_OnAuth();
+
+            }
+            else
+            {
+                rmsg = new Net_OnAuthFail();
+            }
 
             _server.SendClient(connectionId, rmsg);
         }

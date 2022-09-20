@@ -1,4 +1,6 @@
 ﻿using LiteNetLib;
+using System;
+using TicTacToe.Server.Data;
 
 namespace TicTacToe.Server.Game
 {
@@ -6,12 +8,10 @@ namespace TicTacToe.Server.Game
     {
         public int ConnectionId { get; set; }
 
-        public string Username { get; set; }
-
-        public int Score { get; set; }
-
-        public string Password { get; set; }
+        public User User { get; set; }
 
         public NetPeer Peer { get; set; }
+
+        public Guid? GameId { get; set; }
     }
 }

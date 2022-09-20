@@ -2,11 +2,12 @@
 using LiteNetLib.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetworkShared;
+using NetworkShared.Registries;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using TicTacToe.Server.Game;
-using TicTacToe.Server.Registries;
-using TicTacToe.Server.Shared;
 
 namespace TicTacToe.Server
 {
@@ -16,18 +17,18 @@ namespace TicTacToe.Server
 
         private readonly ILogger<NetworkServer> _logger;
         private readonly IServiceProvider _serviceProvider;
-        private readonly GameManager _gameManager;
+        private readonly UsersManager _usersManager;
         private NetManager _netManager;
         private readonly NetDataWriter _cachedWriter = new NetDataWriter();
 
         public NetworkServer(
             ILogger<NetworkServer> logger,
             IServiceProvider provider,
-            GameManager gameManager)
+            UsersManager usersManager)
         {
             _logger = logger;
             _serviceProvider = provider;
-            _gameManager = gameManager;
+            _usersManager = usersManager;
         }
 
         #region Interface methods
@@ -36,7 +37,7 @@ namespace TicTacToe.Server
         {
             _logger.LogInformation($"Incomming connection from {request.RemoteEndPoint}");
 
-            if (_gameManager.GetConnectionsCount() < MAX_USERS_COUNT)
+            if (_usersManager.GetConnectionsCount() < MAX_USERS_COUNT)
             {
                 request.Accept();
                 return;
@@ -70,15 +71,15 @@ namespace TicTacToe.Server
         public void OnPeerConnected(NetPeer peer)
         {
             _logger.LogInformation($"Client connected to server: {peer.EndPoint}. Id: {peer.Id}");
-            _gameManager.AddConnection(peer);
+            _usersManager.AddConnection(peer);
         }
 
         public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
         {
-            var connection = _gameManager.GetConnection(peer.Id);
+            var connection = _usersManager.GetConnection(peer.Id);
             _netManager.DisconnectPeer(peer);
-            _gameManager.RemoveConnection(peer.Id);
-            _logger.LogInformation($"{connection.Username} disconnected: {peer.EndPoint}");
+            _usersManager.Disconnect(peer.Id);
+            _logger.LogInformation($"{connection?.User?.Id} disconnected: {peer.EndPoint}");
         }
 
         public void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
@@ -102,6 +103,9 @@ namespace TicTacToe.Server
         {
             _netManager = new NetManager(this)
             {
+                SimulateLatency = true,
+                //SimulationMinLatency = 200,
+                //SimulationMaxLatency = 500,
                 DisconnectTimeout = 100000 // TODO: use config for this. Default is 5000
             };
 
@@ -118,7 +122,7 @@ namespace TicTacToe.Server
 
         public void SendClient(int peerId, INetPacket packet, DeliveryMethod method = DeliveryMethod.ReliableOrdered)
         {
-            var peer = _gameManager.GetConnection(peerId).Peer;
+            var peer = _usersManager.GetConnection(peerId).Peer;
             peer.Send(WriteSerializable(packet), method);
         }
 
