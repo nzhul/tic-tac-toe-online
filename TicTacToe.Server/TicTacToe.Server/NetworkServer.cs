@@ -17,18 +17,16 @@ namespace TicTacToe.Server
 
         private readonly ILogger<NetworkServer> _logger;
         private readonly IServiceProvider _serviceProvider;
-        private readonly UsersManager _usersManager;
+        private UsersManager _usersManager;
         private NetManager _netManager;
         private readonly NetDataWriter _cachedWriter = new NetDataWriter();
 
         public NetworkServer(
             ILogger<NetworkServer> logger,
-            IServiceProvider provider,
-            UsersManager usersManager)
+            IServiceProvider provider)
         {
             _logger = logger;
             _serviceProvider = provider;
-            _usersManager = usersManager;
         }
 
         #region Interface methods
@@ -110,6 +108,9 @@ namespace TicTacToe.Server
             };
 
             _netManager.Start(9050);
+
+            // dido: we are intentionally resolving the usersManager here to avoid circular dependency problem.
+            _usersManager = _serviceProvider.GetRequiredService<UsersManager>();
 
             _logger.LogInformation("Server listening on port 9050");
         }
