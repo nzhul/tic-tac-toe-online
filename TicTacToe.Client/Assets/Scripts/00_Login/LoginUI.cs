@@ -22,6 +22,7 @@ namespace TTT.Login
         private Transform _loginButton;
         private TextMeshProUGUI _loginText;
         private Transform _loadingUI;
+        private Transform _cancelBtn;
         private Transform _loginError;
 
         private bool _isConnected;

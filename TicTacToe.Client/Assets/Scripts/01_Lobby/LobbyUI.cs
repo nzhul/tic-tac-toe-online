@@ -2,8 +2,10 @@
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
 using NetworkShared.Shared.Packets.ClientServer;
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace TTT.Lobby
@@ -17,6 +19,7 @@ namespace TTT.Lobby
         private Transform _loadingUI;
         private Transform _cancelBtn;
         private Transform _topPlayersContainer;
+        private Transform _logoutBtn;
 
         private void Start()
         {
@@ -26,6 +29,9 @@ namespace TTT.Lobby
             _findOpponentBtn.onClick.AddListener(FindOpponent);
             _loadingUI = transform.Find("Loading");
             _cancelBtn = _loadingUI.Find("CancelBtn");
+            _cancelBtn.GetComponent<Button>().onClick.AddListener(CancelFindOpponent);
+            _logoutBtn = transform.Find("Footer").Find("LogoutBtn");
+            _logoutBtn.GetComponent<Button>().onClick.AddListener(Logout);
 
             OnServerStatusRequestHandler.OnServerStatus += RefreshUI;
             RequestServerStatus();
@@ -36,6 +42,8 @@ namespace TTT.Lobby
             // Disable and Hide FindOpponent button
             // Show loading spinner
 
+            LeanTween.cancelAll();
+            LeanTween.reset(); // because of bug when restarting the scene!
             _findOpponentBtn.gameObject.SetActive(false);
             _loadingUI.gameObject.SetActive(true);
 
@@ -43,6 +51,21 @@ namespace TTT.Lobby
             NetworkClient.Instance.SendServer(msg);
 
             // wait for OnGameStart
+        }
+
+        private void CancelFindOpponent()
+        {
+            _findOpponentBtn.gameObject.SetActive(true);
+            _loadingUI.gameObject.SetActive(false);
+
+            var msg = new Net_CancelFindOpponentRequest();
+            NetworkClient.Instance.SendServer(msg);
+        }
+
+        private void Logout()
+        {
+            NetworkClient.Instance.Disconnect();
+            SceneManager.LoadScene("00_Login");
         }
 
         private void RefreshUI(Net_OnServerStatus msg)

@@ -93,6 +93,11 @@ namespace TTT
 
         private void OnApplicationQuit()
         {
+            Disconnect();
+        }
+
+        public void Disconnect()
+        {
             _netManager.DisconnectAll();
         }
 

@@ -109,6 +109,7 @@
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralBasic.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Archived\TestingRigidbodyCS.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\Following.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_CancelFindOpponentRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

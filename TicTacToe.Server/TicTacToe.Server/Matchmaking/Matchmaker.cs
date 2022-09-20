@@ -45,9 +45,9 @@ namespace TicTacToe.Server.Matchmaking
             DoMatchmaking();
         }
 
-        public void TryUnregisterPlayer(string id)
+        public void TryUnregisterPlayer(string username)
         {
-            var request = _pool.FirstOrDefault(r => r.Connection.User.Id == id);
+            var request = _pool.FirstOrDefault(r => r.Connection.User.Id == username);
             if (request != null)
             {
                 _logger.LogInformation($"Removing {request.Connection.User.Id} from the matchmaking pool.");

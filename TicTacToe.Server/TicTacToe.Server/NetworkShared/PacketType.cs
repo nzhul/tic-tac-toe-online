@@ -9,6 +9,7 @@ namespace NetworkShared
         AuthRequest = 1,
         ServerStatusRequest = 2,
         FindOpponentRequest = 3,
+        CancelFindOpponentRequest = 4,
         #endregion
 
         #region ServerClient
@@ -16,7 +17,7 @@ namespace NetworkShared
         OnAuthFail = 101,
         OnServerStatus = 102,
         OnFindOpponent = 103,
-        OnStartGame = 104
+        OnStartGame = 104,
         #endregion
     }
 
