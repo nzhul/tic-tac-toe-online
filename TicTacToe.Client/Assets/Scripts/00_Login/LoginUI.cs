@@ -56,6 +56,12 @@ namespace TTT.Login
             IterateInputFields();
         }
 
+        private void OnDestroy()
+        {
+            NetworkClient.Instance.OnServerConnected -= SetIsConnected;
+            OnAuthFailHandler.OnAuthFail -= ShowLoginError;
+        }
+
         private void Update()
         {
             HandleTabSelectFields();

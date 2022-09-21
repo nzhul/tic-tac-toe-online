@@ -2,7 +2,6 @@
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
 using NetworkShared.Shared.Packets.ClientServer;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,6 +34,11 @@ namespace TTT.Lobby
 
             OnServerStatusRequestHandler.OnServerStatus += RefreshUI;
             RequestServerStatus();
+        }
+
+        private void OnDestroy()
+        {
+            OnServerStatusRequestHandler.OnServerStatus -= RefreshUI;
         }
 
         private void FindOpponent()
