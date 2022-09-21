@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteNetLib", "LiteNetLib.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{B38DE03B-11EA-EC61-6810-E30E6B0F0122}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrelSync", "ParrelSync.csproj", "{A0EB924D-9EB5-B98D-2706-32E41220718A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{B38DE03B-11EA-EC61-6810-E30E6B0F0122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38DE03B-11EA-EC61-6810-E30E6B0F0122}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38DE03B-11EA-EC61-6810-E30E6B0F0122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0EB924D-9EB5-B98D-2706-32E41220718A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0EB924D-9EB5-B98D-2706-32E41220718A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0EB924D-9EB5-B98D-2706-32E41220718A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0EB924D-9EB5-B98D-2706-32E41220718A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
