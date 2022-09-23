@@ -3,7 +3,7 @@ using NetworkShared.Attributes;
 using NetworkShared.Packets.ServerClient;
 using System;
 
-namespace Assets.Scripts.PacketHandlers
+namespace TTT.PacketHandlers
 {
     [HandlerRegister(PacketType.OnServerStatus)]
     public class OnServerStatusRequestHandler : IPacketHandler

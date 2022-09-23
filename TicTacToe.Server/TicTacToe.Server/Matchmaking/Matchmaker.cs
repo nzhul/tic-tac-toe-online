@@ -67,7 +67,6 @@ namespace TicTacToe.Server.Matchmaking
 
                 if (match != null)
                 {
-                    _logger.LogInformation($"Match found for players: {request.Connection.User.Id} and {match.Connection.User.Id}");
                     request.MatchFound = true;
                     match.MatchFound = true;
                     matchedRequests.Add(request);
@@ -91,6 +90,8 @@ namespace TicTacToe.Server.Matchmaking
 
                     _server.SendClient(p1, msg);
                     _server.SendClient(p2, msg);
+
+                    _logger.LogInformation($"Match found for players: {request.Connection.User.Id}(X) and {match.Connection.User.Id}(O)");
                 }
             }
 

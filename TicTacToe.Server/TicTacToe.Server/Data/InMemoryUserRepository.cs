@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TicTacToe.Server.Data
 {
-    public class InMemoryUserRepository : IRepository<User>
+    public class InMemoryUserRepository : IUserRepository
     {
         private readonly List<User> _entities;
 
@@ -69,6 +69,12 @@ namespace TicTacToe.Server.Data
         public void SetOnline(string id)
         {
             _entities.FirstOrDefault(e => e.Id == id).IsOnline = true;
+        }
+
+        public void Update(User entity)
+        {
+            var dbIndex = _entities.FindIndex(e => e.Id == entity.Id);
+            _entities[dbIndex] = entity;
         }
     }
 }

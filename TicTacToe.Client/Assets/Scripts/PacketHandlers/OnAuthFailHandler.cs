@@ -1,10 +1,9 @@
 ﻿using NetworkShared;
 using NetworkShared.Attributes;
 using NetworkShared.Packets.ServerClient;
-using NetworkShared.Shared;
 using System;
 
-namespace Assets.Scripts.PacketHandlers
+namespace TTT.PacketHandlers
 {
     [HandlerRegister(PacketType.OnAuthFail)]
     public class OnAuthFailHandler : IPacketHandler

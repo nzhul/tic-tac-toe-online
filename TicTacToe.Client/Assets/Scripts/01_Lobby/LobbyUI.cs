@@ -1,8 +1,7 @@
-﻿using Assets.Scripts.PacketHandlers;
-using NetworkShared.Packets.ClientServer;
+﻿using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
-using NetworkShared.Shared.Packets.ClientServer;
 using TMPro;
+using TTT.PacketHandlers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

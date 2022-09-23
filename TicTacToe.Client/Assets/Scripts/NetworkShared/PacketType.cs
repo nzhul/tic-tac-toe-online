@@ -10,6 +10,10 @@ namespace NetworkShared
         ServerStatusRequest = 2,
         FindOpponentRequest = 3,
         CancelFindOpponentRequest = 4,
+        SurrenderRequest = 5,
+        QuitGameRequest = 6,
+        PlayAgainRequest = 7,
+        AcceptPlayAgainRequest = 8,
         #endregion
 
         #region ServerClient
@@ -18,6 +22,10 @@ namespace NetworkShared
         OnServerStatus = 102,
         OnFindOpponent = 103,
         OnStartGame = 104,
+        OnEndRound = 105,
+        OnQuitGame = 106,
+        OnPlayAgain = 107,
+        OnNewRound = 108
         #endregion
     }
 

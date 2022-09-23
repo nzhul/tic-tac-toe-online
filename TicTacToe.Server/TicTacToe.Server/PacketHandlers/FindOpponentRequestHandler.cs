@@ -9,17 +9,17 @@ namespace TicTacToe.Server.PacketHandlers
     public class FindOpponentRequestHandler : IPacketHandler
     {
         private readonly Matchmaker _matchmaker;
-        private readonly UsersManager _gameManager;
+        private readonly UsersManager _usersManager;
 
         public FindOpponentRequestHandler(Matchmaker matchmaker, UsersManager gameManager)
         {
             _matchmaker = matchmaker;
-            _gameManager = gameManager;
+            _usersManager = gameManager;
         }
 
         public void Handle(INetPacket packet, int connectionId)
         {
-            var connection = _gameManager.GetConnection(connectionId);
+            var connection = _usersManager.GetConnection(connectionId);
             _matchmaker.RegisterPlayer(connection);
         }
     }

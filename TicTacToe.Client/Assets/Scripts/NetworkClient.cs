@@ -2,7 +2,6 @@
 using LiteNetLib.Utils;
 using NetworkShared;
 using NetworkShared.Registries;
-using NetworkShared.Shared;
 using System;
 using System.Net;
 using System.Net.Sockets;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TicTacToe.Server.Game
 {
@@ -19,6 +20,19 @@ namespace TicTacToe.Server.Game
             _games.Add(newGame);
 
             return newGame.Id;
+        }
+
+        public Game FindGame(string username)
+        {
+            return _games.FirstOrDefault(g => g.XPlayer == username || g.OPlayer == username);
+        }
+
+        public Game CloseGame(string username)
+        {
+            var game = FindGame(username);
+            _games.Remove(game);
+
+            return game;
         }
     }
 }

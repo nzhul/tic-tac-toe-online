@@ -29,7 +29,7 @@ namespace TicTacToe.Server.Infrastructure
             services.AddSingleton<UsersManager>();
             services.AddSingleton<GamesManager>();
             services.AddSingleton<Matchmaker>();
-            services.AddSingleton<IRepository<User>, InMemoryUserRepository>(); // This should be AddScoped with using real database.
+            services.AddSingleton<IUserRepository, InMemoryUserRepository>(); // This should be AddScoped with using real database.
             services.AddPacketHandlers();
         }
     }

@@ -10,12 +10,12 @@ namespace TicTacToe.Server.Game
     public class UsersManager
     {
         private Dictionary<int, ServerConnection> _connections;
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
 
         private readonly Matchmaker _matchmaker;
 
         public UsersManager(
-            IRepository<User> userRepository,
+            IUserRepository userRepository,
             Matchmaker matchmaker
             )
         {
@@ -92,6 +92,11 @@ namespace TicTacToe.Server.Game
             return _connections[peerId];
         }
 
+        public ServerConnection GetConnection(string userId)
+        {
+            return _connections.FirstOrDefault(x => x.Value.User.Id == userId).Value;
+        }
+
         public void Disconnect(int peerId)
         {
             var connection = GetConnection(peerId);
@@ -102,6 +107,13 @@ namespace TicTacToe.Server.Game
             }
 
             _connections.Remove(peerId);
+        }
+
+        public void IncreaseScore(string userId)
+        {
+            var user = _userRepository.Get(userId);
+            user.Score += 10;
+            _userRepository.Update(user);
         }
     }
 }

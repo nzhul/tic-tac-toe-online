@@ -3,9 +3,6 @@ using NetworkShared;
 using NetworkShared.Attributes;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
-using NetworkShared.Shared;
-using System;
-using System.Threading;
 using TicTacToe.Server.Game;
 
 namespace TicTacToe.Server.PacketHandlers

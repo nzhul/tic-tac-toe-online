@@ -12,13 +12,13 @@ namespace TicTacToe.Server.PacketHandlers
     {
         private readonly UsersManager _gameManager;
         private readonly NetworkServer _server;
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly ILogger<ServerStatusRequestHandler> _logger;
 
         public ServerStatusRequestHandler(
             UsersManager gameManager,
             NetworkServer networkServer,
-            IRepository<User> userRepository,
+            IUserRepository userRepository,
             ILogger<ServerStatusRequestHandler> logger)
         {
             _gameManager = gameManager;

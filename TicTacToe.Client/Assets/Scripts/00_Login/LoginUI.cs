@@ -1,9 +1,9 @@
-using Assets.Scripts.PacketHandlers;
+using Assets.Scripts.Games;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
-using System;
 using System.Collections;
 using TMPro;
+using TTT.PacketHandlers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,7 +22,6 @@ namespace TTT.Login
         private Transform _loginButton;
         private TextMeshProUGUI _loginText;
         private Transform _loadingUI;
-        private Transform _cancelBtn;
         private Transform _loginError;
 
         private bool _isConnected;
@@ -133,8 +132,6 @@ namespace TTT.Login
                 yield return null;
             }
 
-            Debug.Log($"Sending Auth Request!! Username: '{_username}'. Password: '{_password}'");
-
             var authRequest = new Net_AuthRequest
             {
                 Username = _username,
@@ -142,6 +139,7 @@ namespace TTT.Login
             };
 
             NetworkClient.Instance.SendServer(authRequest);
+            GameManager.Instance.MyUsername = _username;
         }
 
         private void HandleTabSelectFields()
