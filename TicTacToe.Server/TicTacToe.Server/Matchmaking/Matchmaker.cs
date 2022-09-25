@@ -3,7 +3,7 @@ using NetworkShared.Packets.ServerClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 
 namespace TicTacToe.Server.Matchmaking
 {

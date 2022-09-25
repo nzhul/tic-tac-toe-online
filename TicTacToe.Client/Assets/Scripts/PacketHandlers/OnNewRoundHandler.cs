@@ -1,4 +1,5 @@
-﻿using NetworkShared;
+﻿using Assets.Scripts.Games;
+using NetworkShared;
 using NetworkShared.Attributes;
 using System;
 
@@ -12,6 +13,8 @@ namespace Assets.Scripts.PacketHandlers
         public void Handle(INetPacket packet, int connectionId)
         {
             OnNewRound?.Invoke();
+            GameManager.Instance.ActiveGame.Reset();
+            GameManager.Instance.InputsEnabled = true;
         }
     }
 }

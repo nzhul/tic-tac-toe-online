@@ -1,7 +1,7 @@
 ﻿using NetworkShared;
 using NetworkShared.Attributes;
 using NetworkShared.Packets.ServerClient;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 
 namespace TicTacToe.Server.PacketHandlers
 {
@@ -26,10 +26,11 @@ namespace TicTacToe.Server.PacketHandlers
         {
             var connection = _usersManager.GetConnection(connectionId);
             var game = _gamesManager.FindGame(connection.User.Id);
-            var opponentId = game.AddWin(connection.User.Id);
+            var opponentId = game.GetOpponent(connection.User.Id);
+            game.AddWin(opponentId); 
             _usersManager.IncreaseScore(opponentId);
 
-            var rmsg = new Net_OnEndRound
+            var rmsg = new Net_OnSurrender
             {
                 Winner = opponentId
             };

@@ -7,7 +7,7 @@ using NetworkShared.Registries;
 using System;
 using System.Net;
 using System.Net.Sockets;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 
 namespace TicTacToe.Server
 {

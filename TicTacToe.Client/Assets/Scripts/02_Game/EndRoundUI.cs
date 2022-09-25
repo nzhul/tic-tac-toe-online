@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.PacketHandlers;
+﻿using Assets.Scripts.Games;
+using Assets.Scripts.PacketHandlers;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
-using System;
 using TMPro;
 using TTT.PacketHandlers;
 using UnityEngine;
@@ -14,8 +14,10 @@ namespace TTT.Game
     {
         [SerializeField] Color _winColor;
         [SerializeField] Color _looseColor;
+        [SerializeField] Color _drawColor;
         [SerializeField] string _winText = "YOU WIN!";
         [SerializeField] string _looseText = "YOU LOOSE!";
+        [SerializeField] string _drawText = "DRAW!";
 
         private Transform _root;
         private Transform _playAgainBtn;
@@ -54,6 +56,8 @@ namespace TTT.Game
 
             var rt = _root.GetComponent<RectTransform>();
             _originalPanelHeight = rt.sizeDelta.y;
+
+            LeanTween.scale(_root.gameObject, new Vector3(1.0f, 1.0f, 1.0f), 1f).setEase(LeanTweenType.easeOutBounce);
         }
 
         private void OnDisable()
@@ -100,10 +104,6 @@ namespace TTT.Game
 
             var rt = _root.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y + 75f);
-
-            // 1. Hide _playAgain button
-            // 2. Show _accept button
-            // 3. Show Opponent wants to play again text.
         }
 
         private void RequestPlayAgain()
@@ -113,16 +113,9 @@ namespace TTT.Game
 
             var msg = new Net_PlayAgainRequest();
             NetworkClient.Instance.SendServer(msg);
-
-            // 1. Send PlayAgainRequest
-            // 2. Hide "PlayAgain" button
-            // 3. OnPlayAgainHandler
-            // 3.1 Requester > Waiting for opponent
-            // 3.2 Opponent > {username} wants to play again! Accept button ?
-            // 4. Send AcceptPlayAgainRequest.
         }
 
-        private void HandleOpponentLeft(Net_OnQuitGame msg)
+        public void HandleOpponentLeft(Net_OnQuitGame msg)
         {
             _playAgainBtn.gameObject.SetActive(false);
             _opponentLeftText.gameObject.SetActive(true);
@@ -147,8 +140,17 @@ namespace TTT.Game
             NetworkClient.Instance.SendServer(msg);
         }
 
-        public void Init(bool isWin)
+        public void Init(string winnerId, bool isDraw)
         {
+            if (isDraw)
+            {
+                _winLoosePanel.color = _drawColor;
+                _winLooseText.text = _drawText;
+                return;
+            }
+
+            var isWin = GameManager.Instance.MyUsername == winnerId;
+
             if (isWin)
             {
                 _winLoosePanel.color = _winColor;

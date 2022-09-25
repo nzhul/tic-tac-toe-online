@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Games;
+using Assets.Scripts.PacketHandlers;
 using NetworkShared.Models;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
@@ -33,32 +34,59 @@ namespace TTT.Game
             _surrenderBtn.GetComponent<Button>().onClick.AddListener(Surrender);
             _endRoundPanel = transform.Find("EndRound");
 
-            OnEndRoundHandler.OnEndRound += DisplayEndRoundUI;
+            OnSurrenderHandler.OnSurrender += HandleSurrender;
+            OnQuitGameHandler.OnQuitGame += HandleOpponentLeft;
+            OnMarkCellHandler.OnMarkCell += HandleMarkCell;
 
             InitHeader();
+        }
+
+        private void HandleOpponentLeft(Net_OnQuitGame msg)
+        {
+            if (!_endRoundPanel.gameObject.activeSelf)
+            {
+                _endRoundPanel.gameObject.SetActive(true);
+                _endRoundPanel.GetComponent<EndRoundUI>().HandleOpponentLeft(msg);
+            }
         }
 
         private void InitHeader()
         {
             var game = GameManager.Instance.ActiveGame;
-            _xUsername.text = game.XUser;
-            _oUsername.text = game.OUser;
+            _xUsername.text = "[X] " + game.XUser;
+            _oUsername.text = "[O] " + game.OUser;
         }
 
         private void OnDestroy()
         {
-            OnEndRoundHandler.OnEndRound -= DisplayEndRoundUI;
+            OnSurrenderHandler.OnSurrender -= HandleSurrender;
+            OnQuitGameHandler.OnQuitGame -= HandleOpponentLeft;
+            OnMarkCellHandler.OnMarkCell -= HandleMarkCell;
         }
 
-        private void DisplayEndRoundUI(Net_OnEndRound msg)
+        private void HandleMarkCell(Net_OnMarkCell msg)
+        {
+            if (msg.Outcome != MarkOutcome.None)
+            {
+
+                // TODO: Trigger WIN ANIMATION! Display EndScreen Only after Delay!
+                var isDraw = msg.Outcome == MarkOutcome.Draw;
+                DisplayEndRoundUI(msg.Actor, isDraw);
+            }
+        }
+
+        private void HandleSurrender(Net_OnSurrender msg)
+        {
+            DisplayEndRoundUI(msg.Winner, false);
+        }
+
+        private void DisplayEndRoundUI(string winnerId, bool isDraw)
         {
             _endRoundPanel.gameObject.SetActive(true);
+            _endRoundPanel.GetComponent<EndRoundUI>().Init(winnerId, isDraw);
 
-            var isWin = GameManager.Instance.MyUsername == msg.Winner;
-            _endRoundPanel.GetComponent<EndRoundUI>().Init(isWin);
-
-            var playerType = GameManager.Instance.ActiveGame.GetPlayerType(msg.Winner);
-            if (playerType == PlayerType.X)
+            var playerType = GameManager.Instance.ActiveGame.GetPlayerType(winnerId);
+            if (playerType == MarkType.X)
             {
                 _xScore++;
                 _xScoreText.text = _xScore.ToString();

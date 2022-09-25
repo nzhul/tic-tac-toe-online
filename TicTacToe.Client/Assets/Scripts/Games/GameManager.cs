@@ -35,9 +35,29 @@ namespace Assets.Scripts.Games
 
         public string OpponentUsername { get; set; }
 
-        public PlayerType MyType { get; set; }
+        public MarkType MyType { get; set; }
 
-        public PlayerType OpponentType { get; set; }
+        public MarkType OpponentType { get; set; }
+
+        public bool InputsEnabled { get; set; }
+
+        public bool IsMyTurn
+        {
+            get
+            {
+                if (_activeGame == null)
+                {
+                    return false;
+                }
+
+                if (_activeGame.CurrentUser != MyUsername)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
         private Game _activeGame;
 
@@ -53,47 +73,74 @@ namespace Assets.Scripts.Games
         {
             _activeGame = new Game()
             {
-                GameId = gameId,
+                Id = gameId,
                 XUser = xUser,
                 OUser = oUser,
                 StartTime = DateTime.Now,
+                CurrentUser = xUser,
             };
 
             if (MyUsername == xUser)
             {
-                MyType = PlayerType.X;
+                MyType = MarkType.X;
                 OpponentUsername = oUser;
-                OpponentType = PlayerType.O;
+                OpponentType = MarkType.O;
             }
             else
             {
-                MyType = PlayerType.O;
+                MyType = MarkType.O;
                 OpponentUsername = xUser;
-                OpponentType = PlayerType.X;
+                OpponentType = MarkType.X;
             }
+
+            InputsEnabled = true;
         }
 
         public class Game
         {
-            public Guid? GameId { get; set; }
+            public Guid? Id { get; set; }
 
             public string XUser { get; set; }
 
             public string OUser { get; set; }
 
+            public string CurrentUser { get; set; }
+
             public DateTime StartTime { get; set; }
 
             public DateTime EndTime { get; set; }
 
-            public PlayerType GetPlayerType(string userId)
+            public MarkType GetPlayerType(string userId)
             {
                 if (userId == XUser)
                 {
-                    return PlayerType.X;
+                    return MarkType.X;
                 }
                 else
                 {
-                    return PlayerType.O;
+                    return MarkType.O;
+                }
+            }
+
+            public void SwitchCurrentPlayer()
+            {
+                CurrentUser = GetOpponent(CurrentUser);
+            }
+
+            public void Reset()
+            {
+                CurrentUser = XUser;
+            }
+
+            private string GetOpponent(string otherUserId)
+            {
+                if (otherUserId == XUser)
+                {
+                    return OUser;
+                }
+                else
+                {
+                    return XUser;
                 }
             }
         }

@@ -875,13 +875,13 @@
       <Project>{036EC752-129A-FC1B-B452-D912BE902E3A}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="LiteNetLib.csproj">
-      <Project>{D4591592-99C9-0D7F-6E76-76EAB0EC47B7}</Project>
-      <Name>LiteNetLib</Name>
-    </ProjectReference>
     <ProjectReference Include="ParrelSync.csproj">
       <Project>{A0EB924D-9EB5-B98D-2706-32E41220718A}</Project>
       <Name>ParrelSync</Name>
+    </ProjectReference>
+    <ProjectReference Include="LiteNetLib.csproj">
+      <Project>{D4591592-99C9-0D7F-6E76-76EAB0EC47B7}</Project>
+      <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,30 +9,30 @@ namespace TicTacToe.Server.Data
 
         public InMemoryUserRepository()
         {
-            _entities = new List<User>()
-            {
-                new User
-                {
-                    Id = "dido1",
-                    Password = "eee",
-                    IsOnline = true,
-                    Score = 10
-                },
-                new User
-                {
-                    Id = "dido2",
-                    Password = "eee",
-                    IsOnline = false,
-                    Score = 35
-                },
-                new User
-                {
-                    Id = "dido3",
-                    Password = "eee",
-                    IsOnline = true,
-                    Score = 21
-                }
-            };
+            _entities = new List<User>();
+            //{
+            //    new User
+            //    {
+            //        Id = "dido1",
+            //        Password = "eee",
+            //        IsOnline = true,
+            //        Score = 10
+            //    },
+            //    new User
+            //    {
+            //        Id = "dido2",
+            //        Password = "eee",
+            //        IsOnline = false,
+            //        Score = 35
+            //    },
+            //    new User
+            //    {
+            //        Id = "dido3",
+            //        Password = "eee",
+            //        IsOnline = true,
+            //        Score = 21
+            //    }
+            //};
         }
 
         public void Add(User entity)

@@ -1,5 +1,5 @@
 ﻿using System;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 
 namespace TicTacToe.Server.Matchmaking
 {

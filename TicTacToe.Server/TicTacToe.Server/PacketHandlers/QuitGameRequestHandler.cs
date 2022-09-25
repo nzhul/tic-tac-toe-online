@@ -1,7 +1,7 @@
 ﻿using NetworkShared;
 using NetworkShared.Attributes;
 using NetworkShared.Packets.ServerClient;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 
 namespace TicTacToe.Server.PacketHandlers
 {
@@ -25,17 +25,21 @@ namespace TicTacToe.Server.PacketHandlers
         public void Handle(INetPacket packet, int connectionId)
         {
             var conn = _usersManager.GetConnection(connectionId);
-            var closedGame = _gamesManager.CloseGame(conn.User.Id);
-            var opponent = closedGame.GetOpponent(conn.User.Id);
-            var opponentConn = _usersManager.GetConnection(opponent);
 
             var rmsg = new Net_OnQuitGame()
             {
                 Quitter = conn.User.Id
             };
 
+            if (_gamesManager.GameExists(conn.User.Id))
+            {
+                var closedGame = _gamesManager.CloseGame(conn.User.Id);
+                var opponent = closedGame.GetOpponent(conn.User.Id);
+                var opponentConn = _usersManager.GetConnection(opponent);
+                _server.SendClient(opponentConn.ConnectionId, rmsg);
+            }
+
             _server.SendClient(conn.ConnectionId, rmsg);
-            _server.SendClient(opponentConn.ConnectionId, rmsg);
         }
     }
 }

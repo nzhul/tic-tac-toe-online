@@ -3,7 +3,7 @@ using NetworkShared;
 using NetworkShared.Attributes;
 using NetworkShared.Packets.ServerClient;
 using TicTacToe.Server;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 
 namespace TTT.PacketHandlers
 {

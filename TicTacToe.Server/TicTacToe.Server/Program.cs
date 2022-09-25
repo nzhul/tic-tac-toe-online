@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 using TicTacToe.Server;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 using TicTacToe.Server.Infrastructure;
 
 var serviceProvider = Container.Confugure();
@@ -24,11 +24,16 @@ while (true)
 
 void HandleConsoleCommand(ConsoleKey key)
 {
+    var usersManager = serviceProvider.GetRequiredService<UsersManager>();
+    var gamesManager = serviceProvider.GetRequiredService<GamesManager>();
+
     switch (key)
     {
         case ConsoleKey.S:
-            var gameManager = serviceProvider.GetRequiredService<UsersManager>();
-            Console.WriteLine($"Connections: {gameManager.GetConnectionsCount()}");
+            Console.WriteLine($"Connections: {usersManager.GetConnectionsCount()}");
+            break;
+        case ConsoleKey.G:
+            Console.WriteLine($"Games: {gamesManager.GetGamesCount()}");
             break;
     }
 }

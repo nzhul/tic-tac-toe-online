@@ -2,7 +2,7 @@
 using System;
 using TicTacToe.Server.Data;
 
-namespace TicTacToe.Server.Game
+namespace TicTacToe.Server.Games
 {
     public class ServerConnection
     {

@@ -2,9 +2,9 @@
 
 namespace NetworkShared.Packets.ServerClient
 {
-    public struct Net_OnEndRound : INetPacket
+    public struct Net_OnSurrender : INetPacket
     {
-        public PacketType Type => PacketType.OnEndRound;
+        public PacketType Type => PacketType.OnSurrender;
 
         public string Winner { get; set; }
 

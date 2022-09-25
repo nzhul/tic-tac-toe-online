@@ -1,6 +1,6 @@
 ﻿using NetworkShared;
 using NetworkShared.Attributes;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 using TicTacToe.Server.Matchmaking;
 
 namespace TicTacToe.Server.PacketHandlers

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TicTacToe.Server.Game
+namespace TicTacToe.Server.Games
 {
     public class GamesManager
     {
@@ -24,7 +24,7 @@ namespace TicTacToe.Server.Game
 
         public Game FindGame(string username)
         {
-            return _games.FirstOrDefault(g => g.XPlayer == username || g.OPlayer == username);
+            return _games.FirstOrDefault(g => g.XUser == username || g.OUser == username);
         }
 
         public Game CloseGame(string username)
@@ -33,6 +33,16 @@ namespace TicTacToe.Server.Game
             _games.Remove(game);
 
             return game;
+        }
+
+        public bool GameExists(string username)
+        {
+            return _games.Any(g => g.XUser == username || g.OUser == username);
+        }
+
+        public int GetGamesCount()
+        {
+            return _games.Count;
         }
     }
 }

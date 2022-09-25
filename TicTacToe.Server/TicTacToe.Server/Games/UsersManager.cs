@@ -5,7 +5,7 @@ using System.Linq;
 using TicTacToe.Server.Data;
 using TicTacToe.Server.Matchmaking;
 
-namespace TicTacToe.Server.Game
+namespace TicTacToe.Server.Games
 {
     public class UsersManager
     {
@@ -13,15 +13,21 @@ namespace TicTacToe.Server.Game
         private readonly IUserRepository _userRepository;
 
         private readonly Matchmaker _matchmaker;
+        private readonly GamesManager _gamesManager;
+        private readonly NetworkServer _server;
 
         public UsersManager(
             IUserRepository userRepository,
-            Matchmaker matchmaker
+            Matchmaker matchmaker,
+            GamesManager gamesManager,
+            NetworkServer server
             )
         {
             _connections = new Dictionary<int, ServerConnection>();
             _userRepository = userRepository;
             _matchmaker = matchmaker;
+            _gamesManager = gamesManager;
+            _server = server;
         }
 
         public PlayerNetDto[] GetTopPlayers()
@@ -102,8 +108,24 @@ namespace TicTacToe.Server.Game
             var connection = GetConnection(peerId);
             if (connection.User != null)
             {
-                _userRepository.SetOffline(connection.User.Id);
-                _matchmaker.TryUnregisterPlayer(connection.User.Id);
+                var userId = connection.User.Id;
+                _userRepository.SetOffline(userId);
+                _matchmaker.TryUnregisterPlayer(userId);
+
+                if (_gamesManager.GameExists(userId))
+                {
+                    var closedGame = _gamesManager.CloseGame(userId);
+
+                    var rmsg = new Net_OnQuitGame()
+                    {
+                        Quitter = userId
+                    };
+
+                    var opponentId = closedGame.GetOpponent(userId);
+                    var opponentConn = GetConnection(opponentId);
+                    IncreaseScore(opponentId);
+                    _server.SendClient(opponentConn.ConnectionId, rmsg);
+                }
             }
 
             _connections.Remove(peerId);

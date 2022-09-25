@@ -4,7 +4,7 @@ using NetworkShared.Registries;
 using System;
 using TicTacToe.Server.Data;
 using TicTacToe.Server.Extensions;
-using TicTacToe.Server.Game;
+using TicTacToe.Server.Games;
 using TicTacToe.Server.Matchmaking;
 
 namespace TicTacToe.Server.Infrastructure

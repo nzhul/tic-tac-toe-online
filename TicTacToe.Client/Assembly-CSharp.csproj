@@ -66,16 +66,23 @@
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralUISpace.cs" />
     <Compile Include="Assets\Scripts\NetworkClient.cs" />
     <Compile Include="Assets\Scripts\PacketHandlers\OnAuthFailHandler.cs" />
+    <Compile Include="Assets\Scripts\PacketHandlers\OnStartGameHandler.cs" />
+    <Compile Include="Assets\Scripts\PacketHandlers\OnNewRoundHandler.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralSimpleUI.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathSplineEndless.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_QuitGameRequest.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathBezier.cs" />
+    <Compile Include="Assets\Scripts\PacketHandlers\OnPlayAgainHandler.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_ServerStatusRequest.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathSplines.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralEventsListeners.cs" />
     <Compile Include="Assets\Scripts\01_Lobby\LobbyUI.cs" />
+    <Compile Include="Assets\Scripts\Games\GameManager.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\TestingZLegacy.cs" />
     <Compile Include="Assets\Scripts\UI\Tweener.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\TestingZLegacyExt.cs" />
+    <Compile Include="Assets\Scripts\02_Game\EndRoundUI.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnEndRound.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathBezier2d.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Registries\HandlerRegistry.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnAuth.cs" />
@@ -83,51 +90,50 @@
     <Compile Include="Assets\Lib\LeanTween\Framework\LTDescrOptional.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralEasingTypes.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralSequencer.cs" />
+    <Compile Include="Assets\Scripts\02_Game\GameUI.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Archived\OldGUIExamplesCS.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_PlayAgainRequest.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_AcceptPlayAgainRequest.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnNewRound.cs" />
     <Compile Include="Assets\Scripts\00_Login\LoginUI.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\LogoCinematic.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralCameraShake.cs" />
+    <Compile Include="Assets\Scripts\PacketHandlers\OnQuitGameHandler.cs" />
+    <Compile Include="Assets\ParrelSync\Examples\CustomArgumentExample.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Archived\TestingPunch.cs" />
     <Compile Include="Assets\Lib\LeanTween\Framework\LeanAudio.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Attributes\HandlerRegisterAttribute.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnAuthFail.cs" />
     <Compile Include="Assets\Scripts\01_Lobby\PlayerRowUI.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnPlayAgain.cs" />
     <Compile Include="Assets\Scripts\PacketHandlers\OnServerStatusRequestHandler.cs" />
     <Compile Include="Assets\Scripts\PacketHandlers\OnAuthHandler.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathSpline.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\PacketType.cs" />
+    <Compile Include="Assets\Scripts\PacketHandlers\OnSurrenderHandler.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralAdvancedTechniques.cs" />
     <Compile Include="Assets\Lib\LeanTween\Framework\LeanSmooth.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralBasics2d.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathSplineTrack.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnStartGame.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\IPacketHandler.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnQuitGame.cs" />
     <Compile Include="Assets\Lib\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathSpline2d.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_SurrenderRequest.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\PathSplinePerformance.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_AuthRequest.cs" />
     <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_CancelFindOpponentRequest.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\GeneralBasic.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Archived\TestingRigidbodyCS.cs" />
     <Compile Include="Assets\Lib\LeanTween\Examples\Scripts\Following.cs" />
-    <Compile Include="Assets\ParrelSync\Examples\CustomArgumentExample.cs" />
-    <Compile Include="Assets\Scripts\PacketHandlers\OnStartGameHandler.cs" />
-    <Compile Include="Assets\Scripts\Games\GameManager.cs" />
-    <Compile Include="Assets\Scripts\02_Game\GameUI.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_SurrenderRequest.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnEndRound.cs" />
-    <Compile Include="Assets\Scripts\PacketHandlers\OnEndRoundHandler.cs" />
-    <Compile Include="Assets\Scripts\02_Game\EndRoundUI.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnQuitGame.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_QuitGameRequest.cs" />
-    <Compile Include="Assets\Scripts\PacketHandlers\OnQuitGameHandler.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnPlayAgain.cs" />
-    <Compile Include="Assets\Scripts\PacketHandlers\OnPlayAgainHandler.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_PlayAgainRequest.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnNewRound.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_AcceptPlayAgainRequest.cs" />
-    <Compile Include="Assets\Scripts\PacketHandlers\OnNewRoundHandler.cs" />
-    <Compile Include="Assets\Scripts\NetworkShared\Models\PlayerType.cs" />
+    <Compile Include="Assets\Scripts\02_Game\BoardUI.cs" />
+    <Compile Include="Assets\Scripts\02_Game\CellUI.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ServerClient\Net_OnMarkCell.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Packets\ClientServer\Net_MarkCellRequest.cs" />
+    <Compile Include="Assets\Scripts\PacketHandlers\OnMarkCellHandler.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Models\MarkOutcome.cs" />
+    <Compile Include="Assets\Scripts\NetworkShared\Models\MarkType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -922,13 +928,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="LiteNetLib.csproj">
-      <Project>{D4591592-99C9-0D7F-6E76-76EAB0EC47B7}</Project>
-      <Name>LiteNetLib</Name>
-    </ProjectReference>
     <ProjectReference Include="ParrelSync.csproj">
       <Project>{A0EB924D-9EB5-B98D-2706-32E41220718A}</Project>
       <Name>ParrelSync</Name>
+    </ProjectReference>
+    <ProjectReference Include="LiteNetLib.csproj">
+      <Project>{D4591592-99C9-0D7F-6E76-76EAB0EC47B7}</Project>
+      <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
