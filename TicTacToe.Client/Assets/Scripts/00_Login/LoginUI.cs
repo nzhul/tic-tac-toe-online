@@ -24,6 +24,7 @@ namespace TTT.Login
         private TextMeshProUGUI _loginText;
         private Transform _loadingUI;
         private Transform _loginError;
+        private Transform _quitBtn;
 
         private bool _isConnected;
 
@@ -48,6 +49,9 @@ namespace TTT.Login
 
             _loginError = transform.Find("LoginError");
             _loadingUI = transform.Find("Loading");
+
+            _quitBtn = transform.Find("Footer").Find("QuitBtn");
+            _quitBtn.GetComponent<Button>().onClick.AddListener(QuitApplication);
 
             NetworkClient.Instance.OnServerConnected += SetIsConnected;
             OnAuthFailHandler.OnAuthFail += ShowLoginError;
@@ -88,9 +92,9 @@ namespace TTT.Login
         {
             var usernameRegex = Regex.Match(_username, "^[a-zA-Z0-9]+$");
 
-            var interactable = 
-                (!string.IsNullOrWhiteSpace(_username) && 
-                !string.IsNullOrWhiteSpace(_password))&& 
+            var interactable =
+                (!string.IsNullOrWhiteSpace(_username) &&
+                !string.IsNullOrWhiteSpace(_password)) &&
                 (_username.Length <= _maxUsernameLength && _password.Length <= _maxPasswordLength) &&
                 usernameRegex.Success;
 
@@ -180,6 +184,11 @@ namespace TTT.Login
         private void HideLoginError()
         {
             _loginError.gameObject.SetActive(false);
+        }
+
+        private void QuitApplication()
+        {
+            Application.Quit();
         }
     }
 

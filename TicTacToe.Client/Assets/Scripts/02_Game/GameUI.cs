@@ -101,7 +101,7 @@ namespace TTT.Game
 
         private IEnumerator EndRoundRoutine(string actor, bool isDraw)
         {
-            var waitTime = isDraw ? 2 : 3;
+            var waitTime = isDraw ? 1.5f : 2;
             yield return new WaitForSeconds(waitTime);
             DisplayEndRoundUI(actor, isDraw);
         }
