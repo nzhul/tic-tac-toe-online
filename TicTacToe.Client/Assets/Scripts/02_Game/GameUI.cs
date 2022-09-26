@@ -3,6 +3,8 @@ using Assets.Scripts.PacketHandlers;
 using NetworkShared.Models;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
+using System;
+using System.Collections;
 using TMPro;
 using TTT.PacketHandlers;
 using UnityEngine;
@@ -71,8 +73,14 @@ namespace TTT.Game
 
                 // TODO: Trigger WIN ANIMATION! Display EndScreen Only after Delay!
                 var isDraw = msg.Outcome == MarkOutcome.Draw;
-                DisplayEndRoundUI(msg.Actor, isDraw);
+                StartCoroutine(EndRoundRoutine(msg.Actor, isDraw));
             }
+        }
+
+        private IEnumerator EndRoundRoutine(string actor, bool isDraw)
+        {
+            yield return new WaitForSeconds(1); // TODO: If draw > Wait 1 second. If Win > Wait 2 or more seconds depending on Line animation.
+            DisplayEndRoundUI(actor, isDraw);
         }
 
         private void HandleSurrender(Net_OnSurrender msg)
@@ -84,6 +92,11 @@ namespace TTT.Game
         {
             _endRoundPanel.gameObject.SetActive(true);
             _endRoundPanel.GetComponent<EndRoundUI>().Init(winnerId, isDraw);
+
+            if (isDraw)
+            {
+                return;
+            }
 
             var playerType = GameManager.Instance.ActiveGame.GetPlayerType(winnerId);
             if (playerType == MarkType.X)

@@ -70,26 +70,6 @@ namespace TicTacToe.Server.PacketHandlers
 
                 _logger.LogInformation($"`{userId}` is a winner! Increasing score and win counter!");
             }
-
-            //// TODO: DELETE THIS CODE AND DO IT ON CLIENT-SIDE
-            //Task.Run(() =>
-            //{
-            //    var isDraw = outcome == MarkOutcome.Draw;
-            //    var endRoundMsg = new Net_OnEndRound
-            //    {
-            //        Winner = isDraw ? "None" : userId,
-            //        IsDraw = outcome == MarkOutcome.Draw
-            //    };
-
-            //    Thread.Sleep(2000);
-            //    _server.SendClient(connection.ConnectionId, endRoundMsg);
-            //    _server.SendClient(opponentConnection.ConnectionId, endRoundMsg);
-
-            //    _logger.LogInformation("AFTER!");
-            //    _logger.LogInformation($"OnEndRound message has been send after 1 second delay!");
-            //});
-
-            //_logger.LogInformation("BEFORE!");
         }
 
         private void Validate(byte index, string actor, Game game)
