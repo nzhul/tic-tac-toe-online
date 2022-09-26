@@ -40,13 +40,14 @@ namespace TicTacToe.Server.PacketHandlers
             // 1. Validate
             Validate(msg.Index, userId, game);
 
-            var outcome = game.MarkCell(msg.Index);
+            var result = game.MarkCell(msg.Index);
 
             var rmsg = new Net_OnMarkCell()
             {
                 Actor = userId,
                 Index = msg.Index,
-                Outcome = outcome,
+                Outcome = result.Outcome,
+                WinLineType = result.WinLineType,
             };
 
             var opponentId = game.GetOpponent(userId);
@@ -57,13 +58,13 @@ namespace TicTacToe.Server.PacketHandlers
 
             _logger.LogInformation($"`{userId}` marked cell at index `{msg.Index}`!");
 
-            if (outcome == MarkOutcome.None)
+            if (result.Outcome == MarkOutcome.None)
             {
                 game.SwitchCurrentPlayer();
                 return;
             };
 
-            if (outcome == MarkOutcome.Win)
+            if (result.Outcome == MarkOutcome.Win)
             {
                 game.AddWin(userId);
                 _usersManager.IncreaseScore(userId);

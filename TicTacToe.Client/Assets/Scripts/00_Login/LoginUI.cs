@@ -2,6 +2,7 @@ using Assets.Scripts.Games;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
 using System.Collections;
+using System.Text.RegularExpressions;
 using TMPro;
 using TTT.PacketHandlers;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace TTT.Login
     public class LoginUI : MonoBehaviour
     {
         [SerializeField] int _maxUsernameLength = 10;
-        [SerializeField] int _maxPasswordLength = 4;
+        [SerializeField] int _maxPasswordLength = 10;
 
         private TMP_InputField _usernameInput;
         private Transform _usernameError;
@@ -26,8 +27,8 @@ namespace TTT.Login
 
         private bool _isConnected;
 
-        private string _username;
-        private string _password;
+        private string _username = string.Empty;
+        private string _password = string.Empty;
 
         private string inputSelection;
 
@@ -85,8 +86,13 @@ namespace TTT.Login
 
         private void ValidateAndUpdateUI()
         {
-            var interactable = (!string.IsNullOrEmpty(_username) && !string.IsNullOrEmpty(_password))
-                && (_username.Length <= _maxUsernameLength && _password.Length <= _maxPasswordLength);
+            var usernameRegex = Regex.Match(_username, "^[a-zA-Z0-9]+$");
+
+            var interactable = 
+                (!string.IsNullOrWhiteSpace(_username) && 
+                !string.IsNullOrWhiteSpace(_password))&& 
+                (_username.Length <= _maxUsernameLength && _password.Length <= _maxPasswordLength) &&
+                usernameRegex.Success;
 
             EnableLoginButton(interactable);
 
@@ -98,7 +104,7 @@ namespace TTT.Login
 
             if (_username != null)
             {
-                var usernameTooLong = _username.Length > _maxUsernameLength;
+                var usernameTooLong = _username.Length > _maxUsernameLength || !usernameRegex.Success;
                 _usernameError.gameObject.SetActive(usernameTooLong);
             }
         }

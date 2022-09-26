@@ -103,6 +103,11 @@ namespace TicTacToe.Server.Games
             return _connections.FirstOrDefault(x => x.Value.User.Id == userId).Value;
         }
 
+        public int[] GetOtherConnectionIds(int excludedConnectionId)
+        {
+            return _connections.Keys.Where(v => v != excludedConnectionId).ToArray();
+        }
+
         public void Disconnect(int peerId)
         {
             var connection = GetConnection(peerId);
@@ -126,6 +131,8 @@ namespace TicTacToe.Server.Games
                     IncreaseScore(opponentId);
                     _server.SendClient(opponentConn.ConnectionId, rmsg);
                 }
+
+                NotifyOtherPlayers(peerId);
             }
 
             _connections.Remove(peerId);
@@ -136,6 +143,22 @@ namespace TicTacToe.Server.Games
             var user = _userRepository.Get(userId);
             user.Score += 10;
             _userRepository.Update(user);
+        }
+
+        private void NotifyOtherPlayers(int excludedConnectionId)
+        {
+            var rmsg = new Net_OnServerStatus
+            {
+                PlayersCount = _userRepository.GetTotalCount(),
+                TopPlayers = GetTopPlayers()
+            };
+
+            var otherIds = GetOtherConnectionIds(excludedConnectionId);
+
+            foreach (var connectionId in otherIds)
+            {
+                _server.SendClient(connectionId, rmsg);
+            }
         }
     }
 }

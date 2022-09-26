@@ -73,6 +73,11 @@ namespace TTT.Lobby
 
         private void RefreshUI(Net_OnServerStatus msg)
         {
+            while (_topPlayersContainer.childCount > 0)
+            {
+                DestroyImmediate(_topPlayersContainer.GetChild(0).gameObject);
+            }
+
             _playersOnlineLabel.text = $"{msg.PlayersCount} players online";
             for (int i = 0; i < msg.TopPlayers.Length; i++)
             {

@@ -13,11 +13,14 @@ namespace NetworkShared.Packets.ServerClient
 
         public MarkOutcome Outcome { get; set; }
 
+        public WinLineType WinLineType { get; set; }
+
         public void Deserialize(NetDataReader reader)
         {
             Actor = reader.GetString();
             Index = reader.GetByte();
             Outcome = (MarkOutcome)reader.GetByte();
+            WinLineType = (WinLineType)reader.GetByte();
         }
 
         public void Serialize(NetDataWriter writer)
@@ -26,6 +29,7 @@ namespace NetworkShared.Packets.ServerClient
             writer.Put(Actor);
             writer.Put(Index);
             writer.Put((byte)Outcome);
+            writer.Put((byte)WinLineType);
         }
     }
 }

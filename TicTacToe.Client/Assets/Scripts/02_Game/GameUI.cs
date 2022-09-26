@@ -3,7 +3,6 @@ using Assets.Scripts.PacketHandlers;
 using NetworkShared.Models;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
-using System;
 using System.Collections;
 using TMPro;
 using TTT.PacketHandlers;
@@ -16,6 +15,7 @@ namespace TTT.Game
     {
         private Transform _surrenderBtn;
         private Transform _endRoundPanel;
+        private Transform _turn;
         private TextMeshProUGUI _xUsername;
         private TextMeshProUGUI _xScoreText;
         private TextMeshProUGUI _oUsername;
@@ -31,6 +31,7 @@ namespace TTT.Game
             _xScoreText = header.Find("xScore").GetComponent<TextMeshProUGUI>();
             _oUsername = header.Find("oUsername").GetComponent<TextMeshProUGUI>();
             _oScoreText = header.Find("oScore").GetComponent<TextMeshProUGUI>();
+            _turn = transform.Find("Turn");
 
             _surrenderBtn = transform.Find("Footer").Find("SurrenderBtn");
             _surrenderBtn.GetComponent<Button>().onClick.AddListener(Surrender);
@@ -39,8 +40,30 @@ namespace TTT.Game
             OnSurrenderHandler.OnSurrender += HandleSurrender;
             OnQuitGameHandler.OnQuitGame += HandleOpponentLeft;
             OnMarkCellHandler.OnMarkCell += HandleMarkCell;
+            OnNewRoundHandler.OnNewRound += HandleNewRound;
 
             InitHeader();
+        }
+
+        private void OnDestroy()
+        {
+            OnSurrenderHandler.OnSurrender -= HandleSurrender;
+            OnQuitGameHandler.OnQuitGame -= HandleOpponentLeft;
+            OnMarkCellHandler.OnMarkCell -= HandleMarkCell;
+            OnNewRoundHandler.OnNewRound -= HandleNewRound;
+        }
+
+        private void HandleNewRound()
+        {
+            StopCoroutine(ShowTurn());
+            StartCoroutine(ShowTurn());
+        }
+
+        IEnumerator ShowTurn()
+        {
+            _turn.gameObject.SetActive(false);
+            yield return new WaitForSeconds(1);
+            _turn.gameObject.SetActive(true);
         }
 
         private void HandleOpponentLeft(Net_OnQuitGame msg)
@@ -59,12 +82,7 @@ namespace TTT.Game
             _oUsername.text = "[O] " + game.OUser;
         }
 
-        private void OnDestroy()
-        {
-            OnSurrenderHandler.OnSurrender -= HandleSurrender;
-            OnQuitGameHandler.OnQuitGame -= HandleOpponentLeft;
-            OnMarkCellHandler.OnMarkCell -= HandleMarkCell;
-        }
+
 
         private void HandleMarkCell(Net_OnMarkCell msg)
         {
@@ -74,12 +92,17 @@ namespace TTT.Game
                 // TODO: Trigger WIN ANIMATION! Display EndScreen Only after Delay!
                 var isDraw = msg.Outcome == MarkOutcome.Draw;
                 StartCoroutine(EndRoundRoutine(msg.Actor, isDraw));
+                return;
             }
+
+            StopCoroutine(ShowTurn());
+            StartCoroutine(ShowTurn());
         }
 
         private IEnumerator EndRoundRoutine(string actor, bool isDraw)
         {
-            yield return new WaitForSeconds(1); // TODO: If draw > Wait 1 second. If Win > Wait 2 or more seconds depending on Line animation.
+            var waitTime = isDraw ? 2 : 3;
+            yield return new WaitForSeconds(waitTime);
             DisplayEndRoundUI(actor, isDraw);
         }
 

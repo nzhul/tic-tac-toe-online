@@ -1,5 +1,6 @@
 ﻿using NetworkShared.Models;
 using System;
+using System.Data.Common;
 using TicTacToe.Server.Utilities;
 
 namespace TicTacToe.Server.Games
@@ -108,24 +109,27 @@ namespace TicTacToe.Server.Games
             return XWantRematch && OWantRematch;
         }
 
-        public MarkOutcome MarkCell(byte index)
+        public MarkResult MarkCell(byte index)
         {
             var (row, col) = BasicExtensions.GetRowCol(index);
             Grid[row, col] = GetPlayerType(CurrentUser);
 
-            var win = CheckWin(row, col);
+            var (isWin, lineType) = CheckWin(row, col);
             var draw = CheckDraw();
 
-            if (win)
+            var result = new MarkResult();
+
+            if (isWin)
             {
-                return MarkOutcome.Win;
+                result.Outcome = MarkOutcome.Win;
+                result.WinLineType = lineType;
             }
             else if (draw)
             {
-                return MarkOutcome.Draw;
+                result.Outcome = MarkOutcome.Draw;
             }
 
-            return MarkOutcome.None;
+            return result;
         }
 
         private MarkType GetPlayerType(string userId)
@@ -140,7 +144,7 @@ namespace TicTacToe.Server.Games
             }
         }
 
-        private bool CheckWin(byte row, byte col)
+        private (bool, WinLineType) CheckWin(byte row, byte col)
         {
             var type = Grid[row, col];
 
@@ -148,14 +152,14 @@ namespace TicTacToe.Server.Games
             for (int i = 0; i < GRID_SIZE; i++)
             {
                 if (Grid[row, i] != type) break;
-                if (i == GRID_SIZE - 1) return true;
+                if (i == GRID_SIZE - 1) return (true, ResolveLineTypeRow(row));
             }
 
             // check row
             for (int i = 0; i < GRID_SIZE; i++)
             {
                 if (Grid[i, col] != type) break;
-                if (i == GRID_SIZE - 1) return true;
+                if (i == GRID_SIZE - 1) return (true, ResolveLineTypeCol(col));
             }
 
             // check diagonal
@@ -165,7 +169,7 @@ namespace TicTacToe.Server.Games
                 for (int i = 0; i < GRID_SIZE; i++)
                 {
                     if (Grid[i, i] != type) break;
-                    if (i == GRID_SIZE - 1) return true;
+                    if (i == GRID_SIZE - 1) return (true, WinLineType.Diagonal);
                 }
             }
 
@@ -175,11 +179,21 @@ namespace TicTacToe.Server.Games
                 for (int i = 0; i < GRID_SIZE; i++)
                 {
                     if (Grid[i, (GRID_SIZE - 1) - i] != type) break;
-                    if (i == GRID_SIZE - 1) return true;
+                    if (i == GRID_SIZE - 1) return (true, WinLineType.AntiDiagonal);
                 }
             }
 
-            return false;
+            return (false, WinLineType.None);
+        }
+
+        private WinLineType ResolveLineTypeRow(int row)
+        {
+            return (WinLineType)(row + 6);
+        }
+
+        private WinLineType ResolveLineTypeCol(int column)
+        {
+            return (WinLineType)(column + 3);
         }
 
         private bool CheckDraw()
@@ -210,5 +224,12 @@ namespace TicTacToe.Server.Games
 
             return true;
         }
+    }
+
+    public struct MarkResult
+    {
+        public MarkOutcome Outcome { get; set; }
+
+        public WinLineType WinLineType { get; set; }
     }
 }
