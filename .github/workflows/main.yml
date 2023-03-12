@@ -1,7 +1,6 @@
 name: GameCI Template 🎮
 
-on: 
-  push:
+on: push:
       branches:
         - master
 
@@ -97,8 +96,8 @@ jobs:
     needs: buildWindows
     name: Create Release 🚀
     runs-on: ubuntu-latest
-    # env:
-    #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
