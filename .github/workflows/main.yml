@@ -1,6 +1,7 @@
 name: GameCI Template 🎮
 
-on: push:
+on: 
+  push:
       branches:
         - master
 
