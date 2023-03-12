@@ -90,7 +90,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: build-StandaloneWindows64
+          name: build-StandaloneWindows64-v${{github.run_number}}
           path: build/StandaloneWindows64
 
   create-release:
@@ -103,12 +103,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build-StandaloneWindows64
+          path: build-artifact
+
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1.0.0
+        uses: actions/create-release@v1.0.6
         with:
           tag_name: v${{github.run_number}} # Replace with the desired tag name for the release
           release_name: Release v${{github.run_number}} # Replace with the desired name for the release
+          body: |
+            Changes in this release:
+            - Add new feature (todo: resolve dynamically)
+            - Bug fixes
           draft: false
           prerelease: false
 
@@ -117,7 +127,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/StandaloneWindows64 # Replace with the path to the artifact you want to attach
+          asset_path: build-artifact/build-StandaloneWindows64-v${{github.run_number}}.zip # Replace with the path to the artifact you want to attach
           asset_name: build-StandaloneWindows64-v${{github.run_number}} # Replace with the desired name for the attached asset
           asset_content_type: application/zip # Replace with the MIME type of the asset
 
