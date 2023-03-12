@@ -134,7 +134,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build-artifact/build-StandaloneWindows64-v${{github.run_number}}.zip # Replace with the path to the artifact you want to attach
-          asset_name: build-StandaloneWindows64-v${{github.run_number}} # Replace with the desired name for the attached asset
+          asset_name: build-StandaloneWindows64-v${{github.run_number}}.zip # Replace with the desired name for the attached asset
           asset_content_type: application/zip # Replace with the MIME type of the asset
 
 
