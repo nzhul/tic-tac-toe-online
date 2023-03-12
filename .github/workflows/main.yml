@@ -122,6 +122,12 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Zip files
+        run: |
+          cd build-artifact
+          zip -r build-StandaloneWindows64-v${{github.run_number}}.zip .
+        shell: bash
+
       - name: Upload Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
